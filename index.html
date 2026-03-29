@@ -3,550 +3,819 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LeadLoop — Early Access</title>
-  <meta name="description" content="Validate interest in LeadLoop, an AI chatbot builder for service businesses." />
+  <title>Build Your Business Chatbot</title>
   <style>
     :root{
-      --bg:#f6f8fb;
-      --surface:#ffffff;
-      --surface-2:#f8fafc;
-      --line:#e6ebf2;
-      --line-2:#d8e0ea;
-      --text:#0f172a;
-      --muted:#5f6b7a;
-      --muted-2:#6b7280;
-      --primary:#111827;
-      --primary-2:#2563eb;
-      --accent:#eff6ff;
-      --success:#166534;
-      --success-bg:#ecfdf3;
-      --shadow:0 10px 30px rgba(15,23,42,.06);
-      --shadow-lg:0 24px 60px rgba(15,23,42,.10);
-      --radius-xl:28px;
-      --radius-lg:22px;
-      --radius-md:16px;
-      --max:1180px;
+      --bg:#0f172a;
+      --panel:#111827;
+      --panel2:#1f2937;
+      --text:#f8fafc;
+      --muted:#cbd5e1;
+      --accent:#38bdf8;
+      --accent-dark:#0284c7;
+      --success:#22c55e;
+      --border:rgba(255,255,255,.1);
+      --shadow:0 20px 50px rgba(0,0,0,.25);
+      --radius:20px;
     }
+
     *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
     body{
       margin:0;
-      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:linear-gradient(180deg,#0b1120 0%, #111827 100%);
       color:var(--text);
-      background:
-        radial-gradient(circle at top left, rgba(37,99,235,.05), transparent 28%),
-        linear-gradient(180deg, #f8fafc 0%, #f6f8fb 100%);
-      letter-spacing:-0.01em;
+      line-height:1.5;
     }
-    a{color:inherit;text-decoration:none}
-    .container{width:min(var(--max),92%);margin:0 auto}
-    .site-header{
-      position:sticky;top:0;z-index:40;
-      background:rgba(246,248,251,.84);
-      backdrop-filter:blur(14px);
-      border-bottom:1px solid rgba(230,235,242,.8);
+
+    .container{
+      width:min(1200px, 92%);
+      margin:0 auto;
     }
+
+    header{
+      padding:28px 0;
+      border-bottom:1px solid var(--border);
+      position:sticky;
+      top:0;
+      backdrop-filter: blur(10px);
+      background:rgba(11,17,32,.7);
+      z-index:10;
+    }
+
     .nav{
-      display:flex;align-items:center;justify-content:space-between;gap:18px;
-      padding:16px 0;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
     }
-    .brand{
-      display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:-0.02em;
+
+    .logo{
+      font-weight:800;
+      letter-spacing:.2px;
+      font-size:1.1rem;
     }
-    .brand-mark{
-      width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
-      color:#fff;background:linear-gradient(135deg,#111827,#2563eb);
-      box-shadow:0 8px 18px rgba(37,99,235,.18);
+
+    .logo span{
+      color:var(--accent);
     }
-    .brand small{display:block;color:var(--muted);font-weight:600;font-size:.78rem;letter-spacing:0}
-    .nav-links{display:flex;align-items:center;gap:22px;color:var(--muted);font-size:.95rem}
-    .nav-links a:hover{color:var(--text)}
-    .btn{
-      appearance:none;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;
-      gap:8px;padding:13px 18px;border-radius:999px;font-weight:700;
-      transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
-    }
-    .btn:hover{transform:translateY(-1px)}
-    .btn-primary{color:#fff;background:var(--primary);box-shadow:0 10px 18px rgba(15,23,42,.12)}
-    .btn-secondary{color:var(--text);background:#fff;border:1px solid var(--line-2)}
+
     .hero{
-      padding:70px 0 30px;
-      display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:start;
+      padding:72px 0 32px;
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:28px;
+      align-items:center;
     }
-    .eyebrow{
-      display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;
-      font-size:.86rem;font-weight:700;color:#1e3a8a;background:#eef4ff;border:1px solid #dbe7ff;
+
+    .hero h1{
+      font-size:clamp(2.2rem, 5vw, 4rem);
+      line-height:1.05;
+      margin:0 0 16px;
     }
-    h1{
-      margin:18px 0 16px;font-size:clamp(2.7rem,5vw,5rem);
-      line-height:.97;letter-spacing:-0.055em;max-width:720px;
-    }
+
     .hero p{
-      margin:0 0 22px;max-width:690px;color:var(--muted);font-size:1.06rem;line-height:1.7;
+      color:var(--muted);
+      font-size:1.08rem;
+      max-width:700px;
+      margin:0 0 24px;
     }
-    .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:16px}
-    .microcopy{color:var(--muted);font-size:.9rem}
-    .pill-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
-    .pill{
-      padding:8px 12px;border-radius:999px;font-size:.85rem;font-weight:650;color:#334155;
-      background:#fff;border:1px solid var(--line);
+
+    .hero-card{
+      background:linear-gradient(180deg, rgba(56,189,248,.12), rgba(255,255,255,.04));
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:24px;
     }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(56,189,248,.12);
+      color:#bae6fd;
+      font-size:.9rem;
+      margin-bottom:16px;
+      border:1px solid rgba(56,189,248,.25);
+    }
+
+    .button-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+    }
+
+    .btn{
+      border:none;
+      border-radius:12px;
+      padding:13px 18px;
+      font-weight:700;
+      cursor:pointer;
+      transition:.2s ease;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .btn-primary{
+      background:var(--accent);
+      color:#06263b;
+    }
+
+    .btn-primary:hover{
+      background:#67d3fb;
+      transform:translateY(-1px);
+    }
+
+    .btn-secondary{
+      background:transparent;
+      color:var(--text);
+      border:1px solid var(--border);
+    }
+
+    .btn-secondary:hover{
+      background:rgba(255,255,255,.05);
+    }
+
+    .section{
+      padding:28px 0 60px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:24px;
+      align-items:start;
+    }
+
     .card{
-      background:#fff;border:1px solid var(--line);border-radius:var(--radius-xl);box-shadow:var(--shadow);
+      background:rgba(17,24,39,.9);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:24px;
     }
-    .hero-card{padding:20px}
-    .mini-form{
-      display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:14px;
+
+    .card h2{
+      margin-top:0;
+      font-size:1.35rem;
     }
-    .mini-form input{
-      width:100%;padding:14px 14px;border-radius:999px;border:1px solid var(--line-2);
-      background:#fff;color:var(--text);font:inherit;outline:none;
+
+    .muted{
+      color:var(--muted);
     }
-    .mini-form input:focus{border-color:#93c5fd;box-shadow:0 0 0 4px rgba(37,99,235,.10)}
-    .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
-    .metric{
-      padding:18px;border-radius:22px;background:var(--surface-2);border:1px solid var(--line);
+
+    .form-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
     }
-    .metric .label{color:var(--muted);font-size:.84rem;margin-bottom:6px}
-    .metric .value{font-size:1.52rem;font-weight:800;letter-spacing:-0.03em;margin-bottom:4px}
+
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin-bottom:16px;
+    }
+
+    .field.full{
+      grid-column:1/-1;
+    }
+
+    label{
+      font-size:.95rem;
+      font-weight:600;
+      color:#e2e8f0;
+    }
+
+    input, select, textarea{
+      width:100%;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:#0b1220;
+      color:var(--text);
+      padding:14px 14px;
+      font:inherit;
+      outline:none;
+    }
+
+    input:focus, select:focus, textarea:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 3px rgba(56,189,248,.15);
+    }
+
+    textarea{
+      min-height:110px;
+      resize:vertical;
+    }
+
+    .small{
+      font-size:.88rem;
+      color:var(--muted);
+    }
+
     .preview-shell{
-      border-radius:24px;overflow:hidden;background:#f8fafc;border:1px solid var(--line);
+      background:#0b1220;
+      border-radius:18px;
+      border:1px solid var(--border);
+      overflow:hidden;
     }
-    .preview-top{
-      display:flex;justify-content:space-between;align-items:center;gap:12px;
-      padding:15px 16px;border-bottom:1px solid var(--line);background:#fff;
+
+    .preview-header{
+      padding:14px 16px;
+      border-bottom:1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
     }
-    .status{
-      display:inline-flex;align-items:center;gap:8px;padding:7px 11px;border-radius:999px;
-      font-size:.8rem;font-weight:700;color:var(--success);background:var(--success-bg);border:1px solid #d1fae5;
+
+    .dot{
+      width:11px;
+      height:11px;
+      border-radius:50%;
+      background:var(--success);
+      box-shadow:0 0 0 6px rgba(34,197,94,.12);
     }
-    .status::before{content:"";width:8px;height:8px;border-radius:50%;background:#22c55e}
-    .preview-body{
-      min-height:340px;padding:16px;display:flex;flex-direction:column;gap:12px;
-      background:linear-gradient(180deg, #fbfdff 0%, #f8fafc 100%);
+
+    .chat-body{
+      padding:16px;
+      min-height:360px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      background:linear-gradient(180deg, rgba(255,255,255,.02), transparent);
     }
+
     .bubble{
-      max-width:84%;padding:13px 14px;border-radius:18px;line-height:1.52;font-size:.94rem;
-      box-shadow:0 6px 16px rgba(15,23,42,.05);
+      max-width:85%;
+      padding:12px 14px;
+      border-radius:16px;
+      font-size:.96rem;
+      white-space:pre-wrap;
     }
-    .bubble.assistant{align-self:flex-start;background:#fff;border:1px solid #edf1f6;border-top-left-radius:8px}
-    .bubble.user{align-self:flex-end;color:#fff;background:linear-gradient(135deg,#111827,#2563eb);border-top-right-radius:8px}
-    .section{padding:26px 0 72px}
-    .section-title{font-size:clamp(1.9rem,3vw,3rem);letter-spacing:-0.045em;margin:0 0 10px}
-    .section-copy{margin:0 0 24px;max-width:760px;color:var(--muted);line-height:1.7}
-    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .feature{
-      padding:22px;border-radius:24px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);
+
+    .assistant{
+      background:#1e293b;
+      align-self:flex-start;
+      border-top-left-radius:6px;
     }
-    .feature h3{margin:0 0 8px;font-size:1.03rem;letter-spacing:-0.02em}
-    .feature p{margin:0;color:var(--muted);line-height:1.65}
-    .builder-shell,.waitlist{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-    .panel,.form-box{
-      padding:24px;border-radius:28px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow-lg);
+
+    .user{
+      background:var(--accent);
+      color:#052638;
+      align-self:flex-end;
+      border-top-right-radius:6px;
+      font-weight:600;
     }
-    .panel h3,.form-box h3{margin:0 0 14px;font-size:1.18rem;letter-spacing:-0.03em}
-    .field{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
-    label{font-size:.92rem;font-weight:700;color:#1f2937}
-    input,select,textarea{
-      width:100%;padding:14px 14px;border-radius:16px;border:1px solid var(--line-2);
-      background:#fff;color:var(--text);font:inherit;outline:none;transition:border-color .18s ease, box-shadow .18s ease;
+
+    .chat-input{
+      display:flex;
+      gap:10px;
+      padding:14px;
+      border-top:1px solid var(--border);
+      background:#0b1220;
     }
-    input:focus,select:focus,textarea:focus{border-color:#93c5fd;box-shadow:0 0 0 4px rgba(37,99,235,.10)}
-    textarea{min-height:108px;resize:vertical}
-    .code{
-      background:#0f172a;border-radius:18px;padding:14px;color:#dbe4f0;white-space:pre-wrap;
-      overflow:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88rem;line-height:1.55;
+
+    .chat-input input{
+      flex:1;
     }
-    .faq{
-      display:grid;gap:12px;
+
+    .output{
+      background:#020617;
+      border-radius:16px;
+      border:1px solid var(--border);
+      padding:16px;
+      overflow:auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size:.9rem;
+      white-space:pre-wrap;
     }
-    details{
-      background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px 18px;box-shadow:var(--shadow);
+
+    .pill-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:10px;
     }
-    summary{
-      cursor:pointer;font-weight:700;list-style:none;
+
+    .pill{
+      font-size:.86rem;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.05);
+      border:1px solid var(--border);
+      color:#dbeafe;
     }
-    summary::-webkit-details-marker{display:none}
-    details p{margin:12px 0 0;color:var(--muted);line-height:1.65}
-    .mini-note{margin-top:10px;color:var(--muted);line-height:1.6;font-size:.88rem}
-    .success{
-      display:none;margin-top:14px;padding:12px 14px;border-radius:16px;color:var(--success);
-      background:var(--success-bg);border:1px solid #d1fae5;
+
+    footer{
+      border-top:1px solid var(--border);
+      padding:24px 0 50px;
+      color:var(--muted);
+      text-align:center;
     }
-    .small{font-size:.88rem}
-    .muted{color:var(--muted)}
-    .footer{
-      border-top:1px solid var(--line);padding:28px 0 42px;color:var(--muted);text-align:center;font-size:.94rem;
-    }
-    @media (max-width: 980px){
-      .hero,.hero-grid,.grid-3,.builder-shell,.waitlist,.mini-form{grid-template-columns:1fr}
-      .nav-links{display:none}
+
+    @media (max-width: 900px){
+      .hero, .grid{
+        grid-template-columns:1fr;
+      }
+      .form-grid{
+        grid-template-columns:1fr;
+      }
     }
   </style>
 </head>
 <body>
-  <header class="site-header">
+  <header>
     <div class="container nav">
-      <div class="brand">
-        <div class="brand-mark">L</div>
-        <div>
-          LeadLoop
-          <small>AI chatbot builder for service businesses</small>
-        </div>
-      </div>
-      <div class="nav-links">
-        <a href="#features">Why it matters</a>
-        <a href="#demo">Preview</a>
-        <a href="#waitlist">Early access</a>
-      </div>
-      <a class="btn btn-primary" href="#waitlist">Get early access</a>
+      <div class="logo">Chatbot<span>Builder</span></div>
+      <a href="#builder" class="btn btn-secondary">Start Building</a>
     </div>
   </header>
 
-  <main class="container">
-    <section class="hero">
+  <main>
+    <section class="hero container">
       <div>
-        <span class="eyebrow">Early-access concept</span>
-        <h1>Help your website answer the first question before you ever open your inbox.</h1>
+        <div class="badge">AI chatbot setup for small and medium businesses</div>
+        <h1>Let business owners build a chatbot for their website in minutes.</h1>
         <p>
-          LeadLoop is a concept for an AI chatbot builder designed for service-based businesses that want a smarter way
-          to answer common questions, capture leads, and move visitors toward the next step.
+          This page collects a business owner’s needs, creates a chatbot configuration,
+          previews the experience, and generates an embed code snippet they can place on their site.
         </p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="#waitlist">Join the waitlist</a>
-          <a class="btn btn-secondary" href="#demo">See the preview</a>
+        <div class="button-row">
+          <a href="#builder" class="btn btn-primary">Build My Chatbot</a>
+          <a href="#how-it-works" class="btn btn-secondary">See How It Works</a>
         </div>
+      </div>
 
-        <form class="mini-form" id="topForm">
-          <input id="topEmail" type="email" placeholder="Enter your email for early access" />
-          <button class="btn btn-primary" type="submit">Request access</button>
-        </form>
-        <div class="microcopy">No product commitment — just early updates and beta access when ready.</div>
-
+      <div class="hero-card">
+        <h3 style="margin-top:0;">What this can help businesses do</h3>
         <div class="pill-row">
           <span class="pill">Answer FAQs</span>
           <span class="pill">Capture leads</span>
           <span class="pill">Book appointments</span>
           <span class="pill">Recommend services</span>
+          <span class="pill">Share business hours</span>
+          <span class="pill">Route support requests</span>
         </div>
+        <p class="muted" style="margin-top:16px;">
+          Ideal for salons, clinics, consultants, restaurants, gyms, contractors, retail shops, and more.
+        </p>
       </div>
+    </section>
 
-      <div class="card hero-card">
-        <div class="hero-grid">
-          <div class="metric">
-            <div class="label">Designed for</div>
-            <div class="value">Service businesses</div>
-            <div class="muted small">Salons, clinics, consultants, contractors, and other local operators</div>
-          </div>
-          <div class="metric">
-            <div class="label">This page is for</div>
-            <div class="value">Validating demand</div>
-            <div class="muted small">A lightweight concept page to test messaging, interest, and lead quality</div>
-          </div>
+    <section id="how-it-works" class="section container">
+      <div class="grid">
+        <div class="card">
+          <h2>How the product works</h2>
+          <p class="muted">
+            The business owner fills out a simple setup form. The system uses those answers to generate:
+          </p>
+          <ul>
+            <li>a chatbot personality and goal set</li>
+            <li>starter FAQ knowledge</li>
+            <li>lead capture rules</li>
+            <li>a website widget preview</li>
+            <li>an embeddable script snippet</li>
+          </ul>
+          <p class="muted">
+            In a full version, this would save their settings to a database and connect to an AI API.
+          </p>
         </div>
 
-        <div class="preview-shell">
-          <div class="preview-top">
-            <div>
-              <div style="font-weight:800;">Bloom & Birch Salon</div>
-              <div class="muted small">Book appointments • Warm and conversational</div>
-            </div>
-            <span class="status">Preview</span>
-          </div>
-          <div class="preview-body">
-            <div class="bubble assistant">Hi there — welcome to Bloom & Birch. I can help with bookings, services, and common questions.</div>
-            <div class="bubble user">Do you offer bridal styling?</div>
-            <div class="bubble assistant">Yes — we offer bridal styling. The best next step is to share your event date and party size so we can check availability.</div>
-          </div>
+        <div class="card">
+          <h2>Best MVP flow</h2>
+          <ol>
+            <li>User enters business information</li>
+            <li>Page generates a chatbot config JSON</li>
+            <li>User tests a live preview</li>
+            <li>User copies website embed code</li>
+            <li>Backend serves chatbot responses on their live site</li>
+          </ol>
         </div>
       </div>
     </section>
 
-    <section id="features" class="section">
-      <h2 class="section-title">Built around a simpler conversion path.</h2>
-      <p class="section-copy">
-        The goal of this page is not to explain everything. It is to make the value clear, lower the friction to raise a hand,
-        and give visitors just enough of the product experience to decide whether they want early access.
-      </p>
+    <section id="builder" class="section container">
+      <div class="grid">
+        <div class="card">
+          <h2>Create your chatbot</h2>
+          <p class="muted">Fill out the business details below. Then generate your chatbot preview and website embed code.</p>
 
-      <div class="grid-3">
-        <div class="feature">
-          <h3>Start with one clear action</h3>
-          <p>The page centers on one primary conversion goal: joining the early-access list.</p>
-        </div>
-        <div class="feature">
-          <h3>Lower friction first</h3>
-          <p>The top-of-page form asks only for an email so interested visitors can convert quickly.</p>
-        </div>
-        <div class="feature">
-          <h3>Handle objections later</h3>
-          <p>FAQ and detail sections sit lower on the page, after interest has already been captured.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="demo" class="section">
-      <h2 class="section-title">Interactive preview</h2>
-      <p class="section-copy">
-        This preview makes the concept more concrete without requiring live infrastructure. It gives visitors a better sense of what the product could feel like in practice.
-      </p>
-
-      <div class="builder-shell">
-        <div class="panel">
-          <h3>Configure the concept</h3>
-          <div class="field">
-            <label for="businessName">Business name</label>
-            <input id="businessName" value="Bloom & Birch Salon" />
-          </div>
-          <div class="field">
-            <label for="industry">Industry</label>
-            <select id="industry">
-              <option>Salon</option>
-              <option>Medical</option>
-              <option>Consulting</option>
-              <option>Real Estate</option>
-              <option>Fitness</option>
-              <option>Retail</option>
-              <option>Contractor</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="tone">Tone</label>
-            <select id="tone">
-              <option>Warm and conversational</option>
-              <option>Friendly and helpful</option>
-              <option>Professional and polished</option>
-              <option>Confident and efficient</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="goal">Primary goal</label>
-            <select id="goal">
-              <option>Book appointments</option>
-              <option>Capture leads</option>
-              <option>Answer customer questions</option>
-              <option>Recommend services</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="description">Business description</label>
-            <textarea id="description">We are a modern salon offering cuts, color, styling, and bridal services for busy professionals and event clients.</textarea>
-          </div>
-          <button class="btn btn-primary" id="updatePreviewBtn" type="button">Update preview</button>
-        </div>
-
-        <div class="panel">
-          <h3>Live preview</h3>
-          <div class="preview-shell">
-            <div class="preview-top">
-              <div>
-                <div id="previewTitle" style="font-weight:800;">Bloom & Birch Salon</div>
-                <div id="previewSubtitle" class="muted small">Book appointments • Warm and conversational</div>
+          <form id="builderForm">
+            <div class="form-grid">
+              <div class="field">
+                <label for="businessName">Business name</label>
+                <input id="businessName" type="text" placeholder="Example: Bloom & Birch Salon" required />
               </div>
-              <span class="status">Live preview</span>
-            </div>
-            <div class="preview-body">
-              <div class="bubble assistant" id="welcomeBubble">Hi there — welcome to Bloom & Birch Salon. I can help with appointments, services, and common questions.</div>
-              <div class="bubble user">What can you help me with?</div>
-              <div class="bubble assistant" id="responseBubble">I can help with bookings, service questions, and next steps for getting started.</div>
-            </div>
-            <div class="preview-actions">
-              <div class="code" id="mockCode">Mock product preview only — no live chatbot is being generated yet.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <section class="section">
-      <h2 class="section-title">Frequently asked questions</h2>
-      <p class="section-copy">
-        These are here to reduce uncertainty for visitors who need a little more detail before joining the list.
-      </p>
+              <div class="field">
+                <label for="industry">Industry</label>
+                <select id="industry">
+                  <option value="General">General business</option>
+                  <option value="Salon">Salon / Beauty</option>
+                  <option value="Medical">Medical / Clinic</option>
+                  <option value="Retail">Retail</option>
+                  <option value="Restaurant">Restaurant</option>
+                  <option value="Real Estate">Real Estate</option>
+                  <option value="Fitness">Fitness / Gym</option>
+                  <option value="Professional Services">Professional Services</option>
+                  <option value="Education">Education / Training</option>
+                </select>
+              </div>
 
-      <div class="faq">
-        <details>
-          <summary>Who is this for?</summary>
-          <p>LeadLoop is aimed at service-based small and medium businesses that want a more helpful website experience without building custom software from scratch.</p>
-        </details>
-        <details>
-          <summary>Is this product live yet?</summary>
-          <p>Not yet. This page is for validating interest, gathering early adopters, and learning what use cases matter most before investing in the full hosted product.</p>
-        </details>
-        <details>
-          <summary>What would the first version likely focus on?</summary>
-          <p>The strongest early use cases are answering common questions, capturing leads, and helping visitors move toward appointments or contact actions.</p>
-        </details>
-      </div>
-    </section>
+              <div class="field">
+                <label for="tone">Chatbot tone</label>
+                <select id="tone">
+                  <option value="Friendly and helpful">Friendly and helpful</option>
+                  <option value="Professional and polished">Professional and polished</option>
+                  <option value="Warm and conversational">Warm and conversational</option>
+                  <option value="Confident and efficient">Confident and efficient</option>
+                </select>
+              </div>
 
-    <section id="waitlist" class="section">
-      <h2 class="section-title">Join the early-access list</h2>
-      <p class="section-copy">
-        If this feels relevant to your business, join the list and tell us what kind of chatbot would be most useful first.
-      </p>
+              <div class="field">
+                <label for="primaryGoal">Primary goal</label>
+                <select id="primaryGoal">
+                  <option value="Answer customer questions">Answer customer questions</option>
+                  <option value="Capture leads">Capture leads</option>
+                  <option value="Book appointments">Book appointments</option>
+                  <option value="Recommend products or services">Recommend products or services</option>
+                  <option value="Route support requests">Route support requests</option>
+                </select>
+              </div>
 
-      <div class="waitlist">
-        <div class="form-box">
-          <h3 style="margin-top:0;">Early access</h3>
-          <form id="waitlistForm">
-            <div class="field">
-              <label for="name">Name</label>
-              <input id="name" required placeholder="Your name" />
+              <div class="field full">
+                <label for="businessDescription">What does the business do?</label>
+                <textarea id="businessDescription" placeholder="Describe the business, who it serves, and the kinds of questions customers usually ask."></textarea>
+              </div>
+
+              <div class="field full">
+                <label for="faqs">Top FAQs</label>
+                <textarea id="faqs" placeholder="Example:
+What are your hours?
+Do you accept walk-ins?
+How do I book?
+Where are you located?
+What services do you offer?"></textarea>
+              </div>
+
+              <div class="field">
+                <label for="hours">Business hours</label>
+                <input id="hours" type="text" placeholder="Mon-Fri 9am-6pm, Sat 10am-2pm" />
+              </div>
+
+              <div class="field">
+                <label for="contact">Contact info</label>
+                <input id="contact" type="text" placeholder="(555) 123-4567 | hello@business.com" />
+              </div>
+
+              <div class="field">
+                <label for="cta">Primary call to action</label>
+                <input id="cta" type="text" placeholder="Book now / Request a quote / Contact us" />
+              </div>
+
+              <div class="field">
+                <label for="brandColor">Brand color</label>
+                <input id="brandColor" type="color" value="#38bdf8" />
+              </div>
+
+              <div class="field full">
+                <label for="leadFields">Lead capture fields</label>
+                <input id="leadFields" type="text" placeholder="Name, Email, Phone, Service Needed" />
+                <div class="small">Comma-separated list</div>
+              </div>
             </div>
-            <div class="field">
-              <label for="email">Email</label>
-              <input id="email" type="email" required placeholder="you@business.com" />
-            </div>
-            <div class="field">
-              <label for="company">Company</label>
-              <input id="company" placeholder="Your company name" />
-            </div>
-            <div class="field">
-              <label for="interestType">What would you want it to do first?</label>
-              <select id="interestType">
-                <option>Answer FAQs</option>
-                <option>Capture leads</option>
-                <option>Book appointments</option>
-                <option>Recommend products or services</option>
-                <option>Done-for-you setup</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="notes">Anything else you’d want?</label>
-              <textarea id="notes" placeholder="Optional notes"></textarea>
-            </div>
-            <button class="btn btn-primary" type="submit">Join early access</button>
-            <div class="mini-note">
-              This static demo stores submissions in the browser only. Replace the submit behavior with a Google Form, Tally, Typeform, or Mailchimp embed when you want real lead capture.
-            </div>
-            <div class="success" id="successMessage">
-              Thanks — you’ve been added to the local demo list.
+
+            <div class="button-row" style="margin-top:8px;">
+              <button type="submit" class="btn btn-primary">Generate Chatbot</button>
+              <button type="button" class="btn btn-secondary" id="fillDemo">Load Demo Data</button>
             </div>
           </form>
         </div>
 
-        <div class="panel">
-          <h3>How to use this page for lead validation</h3>
-          <p class="muted">
-            Publish the page on GitHub Pages, swap the local demo form for a real form, and use it as a focused demand-test page.
-          </p>
-          <div class="code">Recommended next step:
-1. Publish this as index.html on GitHub Pages
-2. Replace the local form with a real lead form
-3. Share the page
-4. Track which business types and use cases convert best</div>
+        <div class="card">
+          <h2>Live chatbot preview</h2>
+          <p class="muted">This preview updates based on the business owner’s responses.</p>
+
+          <div class="preview-shell">
+            <div class="preview-header">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span class="dot"></span>
+                <div>
+                  <div id="previewTitle" style="font-weight:700;">Your Chatbot</div>
+                  <div id="previewSubtitle" class="small">Ready to assist website visitors</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="chat-body" id="chatBody">
+              <div class="bubble assistant" id="welcomeMessage">
+                Hi there! I’m your website assistant. I can answer questions and help visitors take the next step.
+              </div>
+            </div>
+
+            <div class="chat-input">
+              <input id="chatInput" type="text" placeholder="Ask the chatbot a question..." />
+              <button class="btn btn-primary" id="sendChat">Send</button>
+            </div>
+          </div>
         </div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="grid">
+        <div class="card">
+          <h2>Generated system prompt</h2>
+          <div id="systemPromptOutput" class="output">Fill out the form and click “Generate Chatbot.”</div>
+        </div>
+
+        <div class="card">
+          <h2>Generated embed code</h2>
+          <div id="embedCodeOutput" class="output">Your website embed code will appear here.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="card">
+        <h2>Generated chatbot configuration JSON</h2>
+        <div id="jsonOutput" class="output">Your chatbot configuration will appear here.</div>
       </div>
     </section>
   </main>
 
-  <div class="footer">
-    <div class="container">LeadLoop Early Access — a conversion-focused GitHub Pages-ready validation page for testing demand before building the full platform.</div>
-  </div>
+  <footer>
+    <div class="container">
+      Builder MVP for business-owner chatbot setup
+    </div>
+  </footer>
 
   <script>
-    const businessName = document.getElementById("businessName");
-    const industry = document.getElementById("industry");
-    const tone = document.getElementById("tone");
-    const goal = document.getElementById("goal");
-    const description = document.getElementById("description");
+    const state = {
+      businessName: "",
+      industry: "General",
+      tone: "Friendly and helpful",
+      primaryGoal: "Answer customer questions",
+      businessDescription: "",
+      faqs: [],
+      hours: "",
+      contact: "",
+      cta: "",
+      brandColor: "#38bdf8",
+      leadFields: []
+    };
+
+    const form = document.getElementById("builderForm");
+    const fillDemoBtn = document.getElementById("fillDemo");
     const previewTitle = document.getElementById("previewTitle");
     const previewSubtitle = document.getElementById("previewSubtitle");
-    const welcomeBubble = document.getElementById("welcomeBubble");
-    const responseBubble = document.getElementById("responseBubble");
-    const mockCode = document.getElementById("mockCode");
-    const updatePreviewBtn = document.getElementById("updatePreviewBtn");
-    const waitlistForm = document.getElementById("waitlistForm");
-    const topForm = document.getElementById("topForm");
-    const topEmail = document.getElementById("topEmail");
-    const email = document.getElementById("email");
-    const successMessage = document.getElementById("successMessage");
+    const welcomeMessage = document.getElementById("welcomeMessage");
+    const jsonOutput = document.getElementById("jsonOutput");
+    const systemPromptOutput = document.getElementById("systemPromptOutput");
+    const embedCodeOutput = document.getElementById("embedCodeOutput");
+    const chatBody = document.getElementById("chatBody");
+    const chatInput = document.getElementById("chatInput");
+    const sendChat = document.getElementById("sendChat");
 
-    function updatePreview() {
-      const name = businessName.value.trim() || "Your Business";
-      const toneText = tone.value;
-      const goalText = goal.value;
-      const descriptionText = description.value.trim();
+    function getFormData() {
+      const faqs = document.getElementById("faqs").value
+        .split("\n")
+        .map(item => item.trim())
+        .filter(Boolean);
 
-      previewTitle.textContent = name;
-      previewSubtitle.textContent = `${goalText} • ${toneText}`;
-      welcomeBubble.textContent = `Hi there — welcome to ${name}. I can help with ${goalText.toLowerCase()}, services, and common questions.`;
-      responseBubble.textContent = buildResponse(name, goalText, descriptionText);
-      mockCode.textContent =
-`Mock product preview only
+      const leadFields = document.getElementById("leadFields").value
+        .split(",")
+        .map(item => item.trim())
+        .filter(Boolean);
 
-Business: ${name}
-Industry: ${industry.value}
-Tone: ${toneText}
-Goal: ${goalText}
-
-This page is intentionally static so it can be hosted on GitHub Pages while you validate market demand.`;
-    }
-
-    function buildResponse(name, goalText, descriptionText) {
-      if (goalText === "Book appointments") {
-        return `I can help visitors understand services and move toward booking with ${name}.`;
-      }
-      if (goalText === "Capture leads") {
-        return `I can help ${name} collect visitor details and guide people toward the next step.`;
-      }
-      if (goalText === "Answer customer questions") {
-        return `I can help answer common questions about ${name}, including hours, services, and how to get started.`;
-      }
-      if (goalText === "Recommend services") {
-        return `I can help visitors understand which services from ${name} might be the best fit.`;
-      }
-      return descriptionText || `I can help visitors learn more about ${name}.`;
-    }
-
-    function saveLead(payload) {
-      const existing = JSON.parse(localStorage.getItem("leadloop_waitlist_demo") || "[]");
-      existing.push(payload);
-      localStorage.setItem("leadloop_waitlist_demo", JSON.stringify(existing));
-    }
-
-    topForm.addEventListener("submit", function(e){
-      e.preventDefault();
-      const topValue = topEmail.value.trim();
-      if (!topValue) return;
-      saveLead({
-        email: topValue,
-        source: "hero_form",
-        submittedAt: new Date().toISOString()
-      });
-      window.location.hash = "waitlist";
-      email.value = topValue;
-      topEmail.value = "";
-    });
-
-    updatePreviewBtn.addEventListener("click", updatePreview);
-    [businessName, industry, tone, goal, description].forEach(el => {
-      el.addEventListener("input", updatePreview);
-      el.addEventListener("change", updatePreview);
-    });
-
-    waitlistForm.addEventListener("submit", function(e) {
-      e.preventDefault();
-      const payload = {
-        name: document.getElementById("name").value.trim(),
-        email: document.getElementById("email").value.trim(),
-        company: document.getElementById("company").value.trim(),
-        interestType: document.getElementById("interestType").value,
-        notes: document.getElementById("notes").value.trim(),
-        source: "main_form",
-        submittedAt: new Date().toISOString()
+      return {
+        businessName: document.getElementById("businessName").value.trim(),
+        industry: document.getElementById("industry").value,
+        tone: document.getElementById("tone").value,
+        primaryGoal: document.getElementById("primaryGoal").value,
+        businessDescription: document.getElementById("businessDescription").value.trim(),
+        faqs,
+        hours: document.getElementById("hours").value.trim(),
+        contact: document.getElementById("contact").value.trim(),
+        cta: document.getElementById("cta").value.trim(),
+        brandColor: document.getElementById("brandColor").value,
+        leadFields
       };
+    }
 
-      saveLead(payload);
-      successMessage.style.display = "block";
-      waitlistForm.reset();
-      setTimeout(() => {
-        successMessage.style.display = "none";
-      }, 4500);
+    function buildSystemPrompt(config) {
+      return `You are the website chatbot for ${config.businessName || "this business"}.
+
+Business type: ${config.industry}
+Tone: ${config.tone}
+Primary goal: ${config.primaryGoal}
+
+Business description:
+${config.businessDescription || "No description provided."}
+
+Business hours:
+${config.hours || "Not provided."}
+
+Contact info:
+${config.contact || "Not provided."}
+
+Primary CTA:
+${config.cta || "Contact the business."}
+
+Lead capture fields:
+${config.leadFields.length ? config.leadFields.join(", ") : "None specified."}
+
+Frequently asked questions to help answer:
+${config.faqs.length ? config.faqs.map((q, i) => `${i + 1}. ${q}`).join("\n") : "No FAQs provided."}
+
+Behavior rules:
+- Be concise, helpful, and aligned to the selected tone.
+- Answer using only the business information provided when possible.
+- If the user asks something unknown, politely suggest contacting the business.
+- Support the primary goal of: ${config.primaryGoal}.
+- Encourage the user toward the CTA when appropriate.
+- If the conversation suggests a sales or service inquiry, collect lead details when relevant.`;
+    }
+
+    function buildConfig(config) {
+      return {
+        id: slugify(config.businessName || "my-chatbot") + "-" + Date.now(),
+        businessName: config.businessName,
+        industry: config.industry,
+        tone: config.tone,
+        primaryGoal: config.primaryGoal,
+        businessDescription: config.businessDescription,
+        faqSeeds: config.faqs,
+        hours: config.hours,
+        contact: config.contact,
+        cta: config.cta,
+        theme: {
+          primaryColor: config.brandColor,
+          position: "bottom-right",
+          launcherText: "Chat with us"
+        },
+        leadCapture: {
+          enabled: config.primaryGoal === "Capture leads" || config.primaryGoal === "Book appointments",
+          fields: config.leadFields
+        },
+        systemPrompt: buildSystemPrompt(config)
+      };
+    }
+
+    function slugify(str) {
+      return str.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    }
+
+    function buildEmbedCode(configObj) {
+      return `<!-- Website Chatbot Embed -->
+<script>
+  window.MyChatbotConfig = {
+    chatbotId: "${configObj.id}",
+    businessName: "${escapeQuotes(configObj.businessName)}",
+    themeColor: "${configObj.theme.primaryColor}"
+  };
+</script>
+<script src="https://yourdomain.com/widget.js" async></script>`;
+    }
+
+    function escapeQuotes(text = "") {
+      return text.replace(/"/g, '\\"');
+    }
+
+    function updatePreview(config) {
+      previewTitle.textContent = config.businessName || "Your Chatbot";
+      previewSubtitle.textContent = `${config.primaryGoal} • ${config.tone}`;
+      welcomeMessage.textContent =
+        `Hi! Welcome to ${config.businessName || "our business"}. I’m here to help with ${goalToHumanText(config.primaryGoal)}. ${
+          config.cta ? `You can also ${config.cta.toLowerCase()}.` : ""
+        }`;
+      document.documentElement.style.setProperty("--accent", config.brandColor);
+    }
+
+    function goalToHumanText(goal) {
+      switch(goal) {
+        case "Answer customer questions": return "questions about the business";
+        case "Capture leads": return "collecting your info and helping you get started";
+        case "Book appointments": return "booking and appointment questions";
+        case "Recommend products or services": return "recommendations";
+        case "Route support requests": return "support and next steps";
+        default: return "your needs";
+      }
+    }
+
+    function addMessage(role, text) {
+      const div = document.createElement("div");
+      div.className = `bubble ${role}`;
+      div.textContent = text;
+      chatBody.appendChild(div);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    function getMockResponse(message, config) {
+      const text = message.toLowerCase();
+
+      if (text.includes("hours")) {
+        return config.hours
+          ? `${config.businessName} is open: ${config.hours}.`
+          : `I don’t see business hours listed yet. ${config.contact ? `You can contact them at ${config.contact}.` : "Please contact the business directly."}`;
+      }
+
+      if (text.includes("contact") || text.includes("phone") || text.includes("email")) {
+        return config.contact
+          ? `You can reach ${config.businessName} here: ${config.contact}.`
+          : `I don’t have contact details listed yet.`;
+      }
+
+      if (text.includes("book") || text.includes("appointment")) {
+        return config.primaryGoal === "Book appointments"
+          ? `Absolutely — I can help with booking. ${config.cta ? `${config.cta}.` : "Please share your preferred date and service."}`
+          : `This chatbot is mainly focused on ${config.primaryGoal.toLowerCase()}. ${config.cta ? `You can ${config.cta.toLowerCase()}.` : ""}`;
+      }
+
+      if (text.includes("service") || text.includes("offer") || text.includes("do")) {
+        return config.businessDescription
+          ? `${config.businessName} provides: ${config.businessDescription}`
+          : `This business owner has not added service details yet.`;
+      }
+
+      if (text.includes("quote") || text.includes("price") || text.includes("estimate")) {
+        return `I’d be happy to help with that. ${
+          config.primaryGoal === "Capture leads"
+            ? `Please share your ${config.leadFields.join(", ") || "contact information"} and someone will follow up.`
+            : config.contact
+            ? `Please contact ${config.businessName} at ${config.contact}.`
+            : `Please contact the business directly for pricing.`
+        }`;
+      }
+
+      return `${config.tone.split(" ")[0]} reply: Thanks for your message. I’m here to help with ${config.primaryGoal.toLowerCase()}. ${
+        config.cta ? `Next step: ${config.cta}.` : ""
+      }`;
+    }
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      Object.assign(state, getFormData());
+
+      const configObj = buildConfig(state);
+      updatePreview(state);
+
+      jsonOutput.textContent = JSON.stringify(configObj, null, 2);
+      systemPromptOutput.textContent = configObj.systemPrompt;
+      embedCodeOutput.textContent = buildEmbedCode(configObj);
+
+      // reset preview chat back to starter
+      chatBody.innerHTML = "";
+      addMessage("assistant", `Hi! Welcome to ${state.businessName || "our business"}. How can I help today?`);
     });
 
-    updatePreview();
+    fillDemoBtn.addEventListener("click", () => {
+      document.getElementById("businessName").value = "Bloom & Birch Salon";
+      document.getElementById("industry").value = "Salon";
+      document.getElementById("tone").value = "Warm and conversational";
+      document.getElementById("primaryGoal").value = "Book appointments";
+      document.getElementById("businessDescription").value =
+        "We are a modern salon offering haircuts, color, styling, and bridal services for busy professionals and event clients.";
+      document.getElementById("faqs").value =
+`What services do you offer?
+What are your hours?
+Do I need an appointment?
+Do you take walk-ins?
+Where are you located?`;
+      document.getElementById("hours").value = "Tue-Sat 9am-7pm";
+      document.getElementById("contact").value = "(555) 222-1010 | hello@bloomandbirch.com";
+      document.getElementById("cta").value = "Book your appointment now";
+      document.getElementById("brandColor").value = "#d946ef";
+      document.getElementById("leadFields").value = "Name, Email, Phone, Requested Service";
+    });
+
+    sendChat.addEventListener("click", () => {
+      const message = chatInput.value.trim();
+      if (!message) return;
+
+      const config = getFormData();
+      addMessage("user", message);
+
+      const response = getMockResponse(message, config);
+      setTimeout(() => addMessage("assistant", response), 250);
+
+      chatInput.value = "";
+      chatInput.focus();
+    });
+
+    chatInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        sendChat.click();
+      }
+    });
   </script>
 </body>
 </html>
