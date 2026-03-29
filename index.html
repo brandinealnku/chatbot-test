@@ -3,614 +3,336 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Build Your Business Chatbot</title>
+  <title>SMB Chatbot Builder</title>
   <style>
     :root{
-      --bg:#0f172a;
-      --panel:#111827;
-      --panel2:#1f2937;
+      --bg:#081122;
+      --panel:#0f172a;
+      --panel2:#111827;
       --text:#f8fafc;
       --muted:#cbd5e1;
-      --accent:#38bdf8;
-      --accent-dark:#0284c7;
+      --line:rgba(255,255,255,.1);
+      --accent:#2563eb;
       --success:#22c55e;
-      --border:rgba(255,255,255,.1);
-      --shadow:0 20px 50px rgba(0,0,0,.25);
       --radius:20px;
+      --shadow:0 20px 50px rgba(0,0,0,.25);
     }
-
     *{box-sizing:border-box}
     body{
       margin:0;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:linear-gradient(180deg,#0b1120 0%, #111827 100%);
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:linear-gradient(180deg,#06101f,#0f172a);
       color:var(--text);
-      line-height:1.5;
     }
-
-    .container{
-      width:min(1200px, 92%);
-      margin:0 auto;
-    }
-
+    .container{width:min(1200px,92%);margin:0 auto}
     header{
-      padding:28px 0;
-      border-bottom:1px solid var(--border);
-      position:sticky;
-      top:0;
-      backdrop-filter: blur(10px);
-      background:rgba(11,17,32,.7);
-      z-index:10;
+      position:sticky;top:0;z-index:20;
+      backdrop-filter:blur(10px);
+      background:rgba(6,16,31,.75);
+      border-bottom:1px solid var(--line);
     }
-
     .nav{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:20px;
+      display:flex;align-items:center;justify-content:space-between;gap:16px;
+      padding:18px 0;
     }
-
-    .logo{
-      font-weight:800;
-      letter-spacing:.2px;
-      font-size:1.1rem;
-    }
-
-    .logo span{
-      color:var(--accent);
-    }
-
-    .hero{
-      padding:72px 0 32px;
-      display:grid;
-      grid-template-columns:1.2fr .8fr;
-      gap:28px;
-      align-items:center;
-    }
-
-    .hero h1{
-      font-size:clamp(2.2rem, 5vw, 4rem);
-      line-height:1.05;
-      margin:0 0 16px;
-    }
-
-    .hero p{
-      color:var(--muted);
-      font-size:1.08rem;
-      max-width:700px;
-      margin:0 0 24px;
-    }
-
-    .hero-card{
-      background:linear-gradient(180deg, rgba(56,189,248,.12), rgba(255,255,255,.04));
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      padding:24px;
-    }
-
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 12px;
-      border-radius:999px;
-      background:rgba(56,189,248,.12);
-      color:#bae6fd;
-      font-size:.9rem;
-      margin-bottom:16px;
-      border:1px solid rgba(56,189,248,.25);
-    }
-
-    .button-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:12px;
-    }
-
+    .brand{font-weight:800;font-size:1.05rem}
+    .brand span{color:var(--accent)}
     .btn{
-      border:none;
-      border-radius:12px;
-      padding:13px 18px;
-      font-weight:700;
-      cursor:pointer;
-      transition:.2s ease;
-      text-decoration:none;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
+      appearance:none;border:none;border-radius:14px;padding:12px 16px;cursor:pointer;
+      font-weight:700;text-decoration:none;display:inline-flex;align-items:center;justify-content:center
     }
-
-    .btn-primary{
-      background:var(--accent);
-      color:#06263b;
+    .btn.primary{background:var(--accent);color:white}
+    .btn.secondary{background:transparent;color:var(--text);border:1px solid var(--line)}
+    .hero{
+      padding:60px 0 24px;
+      display:grid;grid-template-columns:1.15fr .85fr;gap:24px;align-items:center
     }
-
-    .btn-primary:hover{
-      background:#67d3fb;
-      transform:translateY(-1px);
+    .badge{
+      display:inline-block;padding:8px 12px;border-radius:999px;
+      border:1px solid rgba(37,99,235,.25);background:rgba(37,99,235,.12);color:#bfdbfe;
+      font-size:.9rem;margin-bottom:14px
     }
-
-    .btn-secondary{
-      background:transparent;
-      color:var(--text);
-      border:1px solid var(--border);
-    }
-
-    .btn-secondary:hover{
-      background:rgba(255,255,255,.05);
-    }
-
-    .section{
-      padding:28px 0 60px;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:24px;
-      align-items:start;
-    }
-
-    .card{
-      background:rgba(17,24,39,.9);
-      border:1px solid var(--border);
+    h1{font-size:clamp(2.3rem,5vw,4rem);line-height:1.03;margin:0 0 14px}
+    .lead{font-size:1.08rem;color:var(--muted);max-width:700px}
+    .hero-card,.card{
+      background:rgba(15,23,42,.92);
+      border:1px solid var(--line);
       border-radius:var(--radius);
       box-shadow:var(--shadow);
-      padding:24px;
     }
-
-    .card h2{
-      margin-top:0;
-      font-size:1.35rem;
-    }
-
-    .muted{
-      color:var(--muted);
-    }
-
-    .form-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:16px;
-    }
-
-    .field{
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      margin-bottom:16px;
-    }
-
-    .field.full{
-      grid-column:1/-1;
-    }
-
-    label{
-      font-size:.95rem;
-      font-weight:600;
-      color:#e2e8f0;
-    }
-
-    input, select, textarea{
-      width:100%;
-      border-radius:14px;
-      border:1px solid var(--border);
-      background:#0b1220;
-      color:var(--text);
-      padding:14px 14px;
-      font:inherit;
-      outline:none;
-    }
-
-    input:focus, select:focus, textarea:focus{
-      border-color:var(--accent);
-      box-shadow:0 0 0 3px rgba(56,189,248,.15);
-    }
-
-    textarea{
-      min-height:110px;
-      resize:vertical;
-    }
-
-    .small{
-      font-size:.88rem;
-      color:var(--muted);
-    }
-
-    .preview-shell{
-      background:#0b1220;
-      border-radius:18px;
-      border:1px solid var(--border);
-      overflow:hidden;
-    }
-
-    .preview-header{
-      padding:14px 16px;
-      border-bottom:1px solid var(--border);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-    }
-
-    .dot{
-      width:11px;
-      height:11px;
-      border-radius:50%;
-      background:var(--success);
-      box-shadow:0 0 0 6px rgba(34,197,94,.12);
-    }
-
-    .chat-body{
-      padding:16px;
-      min-height:360px;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-      background:linear-gradient(180deg, rgba(255,255,255,.02), transparent);
-    }
-
-    .bubble{
-      max-width:85%;
-      padding:12px 14px;
-      border-radius:16px;
-      font-size:.96rem;
-      white-space:pre-wrap;
-    }
-
-    .assistant{
-      background:#1e293b;
-      align-self:flex-start;
-      border-top-left-radius:6px;
-    }
-
-    .user{
-      background:var(--accent);
-      color:#052638;
-      align-self:flex-end;
-      border-top-right-radius:6px;
-      font-weight:600;
-    }
-
-    .chat-input{
-      display:flex;
-      gap:10px;
-      padding:14px;
-      border-top:1px solid var(--border);
-      background:#0b1220;
-    }
-
-    .chat-input input{
-      flex:1;
-    }
-
-    .output{
-      background:#020617;
-      border-radius:16px;
-      border:1px solid var(--border);
-      padding:16px;
-      overflow:auto;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size:.9rem;
-      white-space:pre-wrap;
-    }
-
-    .pill-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:10px;
-    }
-
+    .hero-card{padding:22px}
+    .pill-wrap{display:flex;flex-wrap:wrap;gap:10px}
     .pill{
-      font-size:.86rem;
-      padding:8px 12px;
-      border-radius:999px;
-      background:rgba(255,255,255,.05);
-      border:1px solid var(--border);
-      color:#dbeafe;
+      border:1px solid var(--line);border-radius:999px;padding:8px 12px;color:#dbeafe;background:rgba(255,255,255,.03);
+      font-size:.88rem
     }
-
-    footer{
-      border-top:1px solid var(--border);
-      padding:24px 0 50px;
-      color:var(--muted);
-      text-align:center;
+    .section{padding:22px 0 60px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+    .card{padding:24px}
+    .card h2{margin:0 0 8px}
+    .muted{color:var(--muted)}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .field{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+    .field.full{grid-column:1/-1}
+    label{font-weight:700;font-size:.95rem}
+    input,select,textarea{
+      width:100%;padding:14px;border-radius:14px;background:#09111f;color:var(--text);
+      border:1px solid var(--line);font:inherit;outline:none
     }
-
+    textarea{min-height:110px;resize:vertical}
+    input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.18)}
+    .row{display:flex;gap:12px;flex-wrap:wrap}
+    .small{font-size:.88rem;color:var(--muted)}
+    .preview-shell{
+      background:#08111d;border-radius:18px;border:1px solid var(--line);overflow:hidden
+    }
+    .preview-top{
+      display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line)
+    }
+    .status{display:flex;align-items:center;gap:10px}
+    .dot{width:11px;height:11px;border-radius:50%;background:var(--success)}
+    .chat-body{
+      min-height:350px;padding:16px;display:flex;flex-direction:column;gap:12px;background:linear-gradient(180deg,rgba(255,255,255,.02),transparent)
+    }
+    .bubble{
+      max-width:86%;padding:12px 14px;border-radius:16px;font-size:.96rem;white-space:pre-wrap
+    }
+    .assistant{background:#1e293b;align-self:flex-start;border-top-left-radius:6px}
+    .user{background:var(--accent);color:#fff;align-self:flex-end;border-top-right-radius:6px}
+    .chat-input{display:flex;gap:10px;padding:14px;border-top:1px solid var(--line)}
+    .chat-input input{flex:1}
+    .code{
+      background:#020617;border:1px solid var(--line);border-radius:16px;padding:16px;overflow:auto;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9rem;white-space:pre-wrap
+    }
+    footer{border-top:1px solid var(--line);padding:24px 0 50px;color:var(--muted);text-align:center}
     @media (max-width: 900px){
-      .hero, .grid{
-        grid-template-columns:1fr;
-      }
-      .form-grid{
-        grid-template-columns:1fr;
-      }
+      .hero,.grid,.form-grid{grid-template-columns:1fr}
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="container nav">
-      <div class="logo">Chatbot<span>Builder</span></div>
-      <a href="#builder" class="btn btn-secondary">Start Building</a>
+<header>
+  <div class="container nav">
+    <div class="brand">Chatbot<span>Builder</span></div>
+    <a href="#builder" class="btn secondary">Start Building</a>
+  </div>
+</header>
+
+<main class="container">
+  <section class="hero">
+    <div>
+      <div class="badge">Launch a website chatbot for your business in minutes</div>
+      <h1>Build a chatbot your customers can use on your website.</h1>
+      <p class="lead">
+        This builder asks business owners for their needs, creates a chatbot configuration, previews the experience,
+        and generates an embed code snippet for their website.
+      </p>
+      <div class="row">
+        <a href="#builder" class="btn primary">Build My Chatbot</a>
+        <a href="#outputs" class="btn secondary">See Outputs</a>
+      </div>
     </div>
-  </header>
+    <div class="hero-card">
+      <h3 style="margin-top:0;">Good fit for</h3>
+      <div class="pill-wrap">
+        <span class="pill">Service businesses</span>
+        <span class="pill">Salons</span>
+        <span class="pill">Contractors</span>
+        <span class="pill">Consultants</span>
+        <span class="pill">Clinics</span>
+        <span class="pill">Retail shops</span>
+      </div>
+      <p class="muted" style="margin-top:14px;">Use it to answer FAQs, capture leads, recommend services, or route inquiries.</p>
+    </div>
+  </section>
 
-  <main>
-    <section class="hero container">
-      <div>
-        <div class="badge">AI chatbot setup for small and medium businesses</div>
-        <h1>Let business owners build a chatbot for their website in minutes.</h1>
-        <p>
-          This page collects a business owner’s needs, creates a chatbot configuration,
-          previews the experience, and generates an embed code snippet they can place on their site.
-        </p>
-        <div class="button-row">
-          <a href="#builder" class="btn btn-primary">Build My Chatbot</a>
-          <a href="#how-it-works" class="btn btn-secondary">See How It Works</a>
-        </div>
+  <section id="builder" class="section">
+    <div class="grid">
+      <div class="card">
+        <h2>Create your chatbot</h2>
+        <p class="muted">Fill in the business information, then generate a live preview and website embed code.</p>
+        <form id="builderForm">
+          <div class="form-grid">
+            <div class="field">
+              <label for="businessName">Business name</label>
+              <input id="businessName" type="text" placeholder="Bloom & Birch Salon" required />
+            </div>
+            <div class="field">
+              <label for="industry">Industry</label>
+              <select id="industry">
+                <option>General</option>
+                <option>Salon</option>
+                <option>Medical</option>
+                <option>Retail</option>
+                <option>Restaurant</option>
+                <option>Real Estate</option>
+                <option>Fitness</option>
+                <option>Professional Services</option>
+                <option>Education</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="tone">Tone</label>
+              <select id="tone">
+                <option>Friendly and helpful</option>
+                <option>Professional and polished</option>
+                <option>Warm and conversational</option>
+                <option>Confident and efficient</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="primaryGoal">Primary goal</label>
+              <select id="primaryGoal">
+                <option>Answer customer questions</option>
+                <option>Capture leads</option>
+                <option>Book appointments</option>
+                <option>Recommend products or services</option>
+                <option>Route support requests</option>
+              </select>
+            </div>
+
+            <div class="field full">
+              <label for="businessDescription">Business description</label>
+              <textarea id="businessDescription" placeholder="Describe what the business does, who it serves, and what customers usually ask."></textarea>
+            </div>
+
+            <div class="field full">
+              <label for="faqs">Top FAQs</label>
+              <textarea id="faqs" placeholder="One FAQ per line"></textarea>
+            </div>
+
+            <div class="field">
+              <label for="hours">Business hours</label>
+              <input id="hours" type="text" placeholder="Mon-Fri 9am-6pm" />
+            </div>
+            <div class="field">
+              <label for="contact">Contact info</label>
+              <input id="contact" type="text" placeholder="(555) 123-4567 | hello@business.com" />
+            </div>
+
+            <div class="field">
+              <label for="cta">Primary CTA</label>
+              <input id="cta" type="text" placeholder="Book now / Request a quote / Contact us" />
+            </div>
+            <div class="field">
+              <label for="brandColor">Brand color</label>
+              <input id="brandColor" type="color" value="#2563eb" />
+            </div>
+
+            <div class="field full">
+              <label for="leadFields">Lead capture fields</label>
+              <input id="leadFields" type="text" placeholder="Name, Email, Phone, Service Needed" />
+              <div class="small">Comma-separated list</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <button class="btn primary" type="submit">Generate + Save Chatbot</button>
+            <button class="btn secondary" type="button" id="fillDemo">Load Demo Data</button>
+          </div>
+        </form>
       </div>
 
-      <div class="hero-card">
-        <h3 style="margin-top:0;">What this can help businesses do</h3>
-        <div class="pill-row">
-          <span class="pill">Answer FAQs</span>
-          <span class="pill">Capture leads</span>
-          <span class="pill">Book appointments</span>
-          <span class="pill">Recommend services</span>
-          <span class="pill">Share business hours</span>
-          <span class="pill">Route support requests</span>
-        </div>
-        <p class="muted" style="margin-top:16px;">
-          Ideal for salons, clinics, consultants, restaurants, gyms, contractors, retail shops, and more.
-        </p>
-      </div>
-    </section>
+      <div class="card">
+        <h2>Live preview</h2>
+        <p class="muted">This shows how the chatbot widget could feel on a live website.</p>
 
-    <section id="how-it-works" class="section container">
-      <div class="grid">
-        <div class="card">
-          <h2>How the product works</h2>
-          <p class="muted">
-            The business owner fills out a simple setup form. The system uses those answers to generate:
-          </p>
-          <ul>
-            <li>a chatbot personality and goal set</li>
-            <li>starter FAQ knowledge</li>
-            <li>lead capture rules</li>
-            <li>a website widget preview</li>
-            <li>an embeddable script snippet</li>
-          </ul>
-          <p class="muted">
-            In a full version, this would save their settings to a database and connect to an AI API.
-          </p>
-        </div>
-
-        <div class="card">
-          <h2>Best MVP flow</h2>
-          <ol>
-            <li>User enters business information</li>
-            <li>Page generates a chatbot config JSON</li>
-            <li>User tests a live preview</li>
-            <li>User copies website embed code</li>
-            <li>Backend serves chatbot responses on their live site</li>
-          </ol>
-        </div>
-      </div>
-    </section>
-
-    <section id="builder" class="section container">
-      <div class="grid">
-        <div class="card">
-          <h2>Create your chatbot</h2>
-          <p class="muted">Fill out the business details below. Then generate your chatbot preview and website embed code.</p>
-
-          <form id="builderForm">
-            <div class="form-grid">
-              <div class="field">
-                <label for="businessName">Business name</label>
-                <input id="businessName" type="text" placeholder="Example: Bloom & Birch Salon" required />
-              </div>
-
-              <div class="field">
-                <label for="industry">Industry</label>
-                <select id="industry">
-                  <option value="General">General business</option>
-                  <option value="Salon">Salon / Beauty</option>
-                  <option value="Medical">Medical / Clinic</option>
-                  <option value="Retail">Retail</option>
-                  <option value="Restaurant">Restaurant</option>
-                  <option value="Real Estate">Real Estate</option>
-                  <option value="Fitness">Fitness / Gym</option>
-                  <option value="Professional Services">Professional Services</option>
-                  <option value="Education">Education / Training</option>
-                </select>
-              </div>
-
-              <div class="field">
-                <label for="tone">Chatbot tone</label>
-                <select id="tone">
-                  <option value="Friendly and helpful">Friendly and helpful</option>
-                  <option value="Professional and polished">Professional and polished</option>
-                  <option value="Warm and conversational">Warm and conversational</option>
-                  <option value="Confident and efficient">Confident and efficient</option>
-                </select>
-              </div>
-
-              <div class="field">
-                <label for="primaryGoal">Primary goal</label>
-                <select id="primaryGoal">
-                  <option value="Answer customer questions">Answer customer questions</option>
-                  <option value="Capture leads">Capture leads</option>
-                  <option value="Book appointments">Book appointments</option>
-                  <option value="Recommend products or services">Recommend products or services</option>
-                  <option value="Route support requests">Route support requests</option>
-                </select>
-              </div>
-
-              <div class="field full">
-                <label for="businessDescription">What does the business do?</label>
-                <textarea id="businessDescription" placeholder="Describe the business, who it serves, and the kinds of questions customers usually ask."></textarea>
-              </div>
-
-              <div class="field full">
-                <label for="faqs">Top FAQs</label>
-                <textarea id="faqs" placeholder="Example:
-What are your hours?
-Do you accept walk-ins?
-How do I book?
-Where are you located?
-What services do you offer?"></textarea>
-              </div>
-
-              <div class="field">
-                <label for="hours">Business hours</label>
-                <input id="hours" type="text" placeholder="Mon-Fri 9am-6pm, Sat 10am-2pm" />
-              </div>
-
-              <div class="field">
-                <label for="contact">Contact info</label>
-                <input id="contact" type="text" placeholder="(555) 123-4567 | hello@business.com" />
-              </div>
-
-              <div class="field">
-                <label for="cta">Primary call to action</label>
-                <input id="cta" type="text" placeholder="Book now / Request a quote / Contact us" />
-              </div>
-
-              <div class="field">
-                <label for="brandColor">Brand color</label>
-                <input id="brandColor" type="color" value="#38bdf8" />
-              </div>
-
-              <div class="field full">
-                <label for="leadFields">Lead capture fields</label>
-                <input id="leadFields" type="text" placeholder="Name, Email, Phone, Service Needed" />
-                <div class="small">Comma-separated list</div>
+        <div class="preview-shell">
+          <div class="preview-top">
+            <div class="status">
+              <span class="dot"></span>
+              <div>
+                <div id="previewTitle" style="font-weight:800">Your Chatbot</div>
+                <div id="previewSubtitle" class="small">Ready to help visitors</div>
               </div>
             </div>
+          </div>
 
-            <div class="button-row" style="margin-top:8px;">
-              <button type="submit" class="btn btn-primary">Generate Chatbot</button>
-              <button type="button" class="btn btn-secondary" id="fillDemo">Load Demo Data</button>
-            </div>
-          </form>
-        </div>
+          <div class="chat-body" id="chatBody">
+            <div class="bubble assistant" id="welcomeMessage">Hi there. I’m your website assistant. I can answer questions and help visitors take the next step.</div>
+          </div>
 
-        <div class="card">
-          <h2>Live chatbot preview</h2>
-          <p class="muted">This preview updates based on the business owner’s responses.</p>
-
-          <div class="preview-shell">
-            <div class="preview-header">
-              <div style="display:flex;align-items:center;gap:10px;">
-                <span class="dot"></span>
-                <div>
-                  <div id="previewTitle" style="font-weight:700;">Your Chatbot</div>
-                  <div id="previewSubtitle" class="small">Ready to assist website visitors</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="chat-body" id="chatBody">
-              <div class="bubble assistant" id="welcomeMessage">
-                Hi there! I’m your website assistant. I can answer questions and help visitors take the next step.
-              </div>
-            </div>
-
-            <div class="chat-input">
-              <input id="chatInput" type="text" placeholder="Ask the chatbot a question..." />
-              <button class="btn btn-primary" id="sendChat">Send</button>
-            </div>
+          <div class="chat-input">
+            <input id="chatInput" type="text" placeholder="Ask the chatbot a question..." />
+            <button id="sendPreviewChat" class="btn primary" type="button">Send</button>
           </div>
         </div>
       </div>
-    </section>
-
-    <section class="section container">
-      <div class="grid">
-        <div class="card">
-          <h2>Generated system prompt</h2>
-          <div id="systemPromptOutput" class="output">Fill out the form and click “Generate Chatbot.”</div>
-        </div>
-
-        <div class="card">
-          <h2>Generated embed code</h2>
-          <div id="embedCodeOutput" class="output">Your website embed code will appear here.</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section container">
-      <div class="card">
-        <h2>Generated chatbot configuration JSON</h2>
-        <div id="jsonOutput" class="output">Your chatbot configuration will appear here.</div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="container">
-      Builder MVP for business-owner chatbot setup
     </div>
-  </footer>
+  </section>
 
-  <script>
-    const state = {
-      businessName: "",
-      industry: "General",
-      tone: "Friendly and helpful",
-      primaryGoal: "Answer customer questions",
-      businessDescription: "",
-      faqs: [],
-      hours: "",
-      contact: "",
-      cta: "",
-      brandColor: "#38bdf8",
-      leadFields: []
+  <section id="outputs" class="section">
+    <div class="grid">
+      <div class="card">
+        <h2>System prompt</h2>
+        <div id="systemPromptOutput" class="code">Fill out the form and click “Generate + Save Chatbot.”</div>
+      </div>
+      <div class="card">
+        <h2>Embed code</h2>
+        <div id="embedCodeOutput" class="code">Your embed code will appear here.</div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:24px;">
+      <h2>Chatbot configuration JSON</h2>
+      <div id="jsonOutput" class="code">Your saved chatbot configuration will appear here.</div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">Starter app for SMB chatbot setup, preview, and embed.</div>
+</footer>
+
+<script>
+  const apiBase = window.location.origin;
+  let savedChatbot = null;
+  let previewMessages = [];
+
+  const form = document.getElementById("builderForm");
+  const fillDemoBtn = document.getElementById("fillDemo");
+  const previewTitle = document.getElementById("previewTitle");
+  const previewSubtitle = document.getElementById("previewSubtitle");
+  const welcomeMessage = document.getElementById("welcomeMessage");
+  const jsonOutput = document.getElementById("jsonOutput");
+  const systemPromptOutput = document.getElementById("systemPromptOutput");
+  const embedCodeOutput = document.getElementById("embedCodeOutput");
+  const chatBody = document.getElementById("chatBody");
+  const chatInput = document.getElementById("chatInput");
+  const sendPreviewChat = document.getElementById("sendPreviewChat");
+
+  function getFormData() {
+    const faqs = document.getElementById("faqs").value
+      .split("\n").map(x => x.trim()).filter(Boolean);
+
+    const leadFields = document.getElementById("leadFields").value
+      .split(",").map(x => x.trim()).filter(Boolean);
+
+    return {
+      businessName: document.getElementById("businessName").value.trim(),
+      industry: document.getElementById("industry").value,
+      tone: document.getElementById("tone").value,
+      primaryGoal: document.getElementById("primaryGoal").value,
+      businessDescription: document.getElementById("businessDescription").value.trim(),
+      faqSeeds: faqs,
+      hours: document.getElementById("hours").value.trim(),
+      contact: document.getElementById("contact").value.trim(),
+      cta: document.getElementById("cta").value.trim(),
+      theme: {
+        primaryColor: document.getElementById("brandColor").value,
+        position: "bottom-right",
+        launcherText: "Chat with us"
+      },
+      leadCapture: {
+        enabled: ["Capture leads", "Book appointments"].includes(document.getElementById("primaryGoal").value),
+        fields: leadFields
+      }
     };
+  }
 
-    const form = document.getElementById("builderForm");
-    const fillDemoBtn = document.getElementById("fillDemo");
-    const previewTitle = document.getElementById("previewTitle");
-    const previewSubtitle = document.getElementById("previewSubtitle");
-    const welcomeMessage = document.getElementById("welcomeMessage");
-    const jsonOutput = document.getElementById("jsonOutput");
-    const systemPromptOutput = document.getElementById("systemPromptOutput");
-    const embedCodeOutput = document.getElementById("embedCodeOutput");
-    const chatBody = document.getElementById("chatBody");
-    const chatInput = document.getElementById("chatInput");
-    const sendChat = document.getElementById("sendChat");
-
-    function getFormData() {
-      const faqs = document.getElementById("faqs").value
-        .split("\n")
-        .map(item => item.trim())
-        .filter(Boolean);
-
-      const leadFields = document.getElementById("leadFields").value
-        .split(",")
-        .map(item => item.trim())
-        .filter(Boolean);
-
-      return {
-        businessName: document.getElementById("businessName").value.trim(),
-        industry: document.getElementById("industry").value,
-        tone: document.getElementById("tone").value,
-        primaryGoal: document.getElementById("primaryGoal").value,
-        businessDescription: document.getElementById("businessDescription").value.trim(),
-        faqs,
-        hours: document.getElementById("hours").value.trim(),
-        contact: document.getElementById("contact").value.trim(),
-        cta: document.getElementById("cta").value.trim(),
-        brandColor: document.getElementById("brandColor").value,
-        leadFields
-      };
-    }
-
-    function buildSystemPrompt(config) {
-      return `You are the website chatbot for ${config.businessName || "this business"}.
+  function buildLocalSystemPrompt(config) {
+    return `You are the website chatbot for ${config.businessName || "this business"}.
 
 Business type: ${config.industry}
 Tone: ${config.tone}
@@ -629,193 +351,108 @@ Primary CTA:
 ${config.cta || "Contact the business."}
 
 Lead capture fields:
-${config.leadFields.length ? config.leadFields.join(", ") : "None specified."}
+${config.leadCapture.fields.length ? config.leadCapture.fields.join(", ") : "None specified."}
 
 Frequently asked questions to help answer:
-${config.faqs.length ? config.faqs.map((q, i) => `${i + 1}. ${q}`).join("\n") : "No FAQs provided."}
+${config.faqSeeds.length ? config.faqSeeds.map((q, i) => `${i + 1}. ${q}`).join("\n") : "No FAQs provided."}`;
+  }
 
-Behavior rules:
-- Be concise, helpful, and aligned to the selected tone.
-- Answer using only the business information provided when possible.
-- If the user asks something unknown, politely suggest contacting the business.
-- Support the primary goal of: ${config.primaryGoal}.
-- Encourage the user toward the CTA when appropriate.
-- If the conversation suggests a sales or service inquiry, collect lead details when relevant.`;
-    }
+  function addPreviewMessage(role, text) {
+    const el = document.createElement("div");
+    el.className = `bubble ${role}`;
+    el.textContent = text;
+    chatBody.appendChild(el);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
 
-    function buildConfig(config) {
-      return {
-        id: slugify(config.businessName || "my-chatbot") + "-" + Date.now(),
-        businessName: config.businessName,
-        industry: config.industry,
-        tone: config.tone,
-        primaryGoal: config.primaryGoal,
-        businessDescription: config.businessDescription,
-        faqSeeds: config.faqs,
-        hours: config.hours,
-        contact: config.contact,
-        cta: config.cta,
-        theme: {
-          primaryColor: config.brandColor,
-          position: "bottom-right",
-          launcherText: "Chat with us"
-        },
-        leadCapture: {
-          enabled: config.primaryGoal === "Capture leads" || config.primaryGoal === "Book appointments",
-          fields: config.leadFields
-        },
-        systemPrompt: buildSystemPrompt(config)
-      };
-    }
+  function resetPreview(config) {
+    chatBody.innerHTML = "";
+    addPreviewMessage("assistant", `Hi! Welcome to ${config.businessName || "our business"}. How can I help today?`);
+    previewMessages = [];
+  }
 
-    function slugify(str) {
-      return str.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-    }
+  function updatePreview(config) {
+    previewTitle.textContent = config.businessName || "Your Chatbot";
+    previewSubtitle.textContent = `${config.primaryGoal} • ${config.tone}`;
+    document.documentElement.style.setProperty("--accent", config.theme.primaryColor || "#2563eb");
+  }
 
-    function buildEmbedCode(configObj) {
-      return `<!-- Website Chatbot Embed -->
-<script>
-  window.MyChatbotConfig = {
-    chatbotId: "${configObj.id}",
-    businessName: "${escapeQuotes(configObj.businessName)}",
-    themeColor: "${configObj.theme.primaryColor}"
-  };
-</script>
-<script src="https://yourdomain.com/widget.js" async></script>`;
-    }
+  fillDemoBtn.addEventListener("click", () => {
+    document.getElementById("businessName").value = "Bloom & Birch Salon";
+    document.getElementById("industry").value = "Salon";
+    document.getElementById("tone").value = "Warm and conversational";
+    document.getElementById("primaryGoal").value = "Book appointments";
+    document.getElementById("businessDescription").value = "We are a modern salon offering cuts, color, styling, and bridal services for busy professionals and special events.";
+    document.getElementById("faqs").value = "What services do you offer?\nWhat are your hours?\nDo I need an appointment?\nDo you take walk-ins?\nWhere are you located?";
+    document.getElementById("hours").value = "Tue-Sat 9am-7pm";
+    document.getElementById("contact").value = "(555) 222-1010 | hello@bloomandbirch.com";
+    document.getElementById("cta").value = "Book your appointment now";
+    document.getElementById("brandColor").value = "#d946ef";
+    document.getElementById("leadFields").value = "Name, Email, Phone, Requested Service";
+  });
 
-    function escapeQuotes(text = "") {
-      return text.replace(/"/g, '\\"');
-    }
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const config = getFormData();
+    updatePreview(config);
+    resetPreview(config);
+    systemPromptOutput.textContent = buildLocalSystemPrompt(config);
 
-    function updatePreview(config) {
-      previewTitle.textContent = config.businessName || "Your Chatbot";
-      previewSubtitle.textContent = `${config.primaryGoal} • ${config.tone}`;
-      welcomeMessage.textContent =
-        `Hi! Welcome to ${config.businessName || "our business"}. I’m here to help with ${goalToHumanText(config.primaryGoal)}. ${
-          config.cta ? `You can also ${config.cta.toLowerCase()}.` : ""
-        }`;
-      document.documentElement.style.setProperty("--accent", config.brandColor);
-    }
+    try {
+      const res = await fetch(`${apiBase}/api/chatbots`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(config)
+      });
+      const data = await res.json();
 
-    function goalToHumanText(goal) {
-      switch(goal) {
-        case "Answer customer questions": return "questions about the business";
-        case "Capture leads": return "collecting your info and helping you get started";
-        case "Book appointments": return "booking and appointment questions";
-        case "Recommend products or services": return "recommendations";
-        case "Route support requests": return "support and next steps";
-        default: return "your needs";
-      }
-    }
-
-    function addMessage(role, text) {
-      const div = document.createElement("div");
-      div.className = `bubble ${role}`;
-      div.textContent = text;
-      chatBody.appendChild(div);
-      chatBody.scrollTop = chatBody.scrollHeight;
-    }
-
-    function getMockResponse(message, config) {
-      const text = message.toLowerCase();
-
-      if (text.includes("hours")) {
-        return config.hours
-          ? `${config.businessName} is open: ${config.hours}.`
-          : `I don’t see business hours listed yet. ${config.contact ? `You can contact them at ${config.contact}.` : "Please contact the business directly."}`;
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to save chatbot.");
       }
 
-      if (text.includes("contact") || text.includes("phone") || text.includes("email")) {
-        return config.contact
-          ? `You can reach ${config.businessName} here: ${config.contact}.`
-          : `I don’t have contact details listed yet.`;
-      }
-
-      if (text.includes("book") || text.includes("appointment")) {
-        return config.primaryGoal === "Book appointments"
-          ? `Absolutely — I can help with booking. ${config.cta ? `${config.cta}.` : "Please share your preferred date and service."}`
-          : `This chatbot is mainly focused on ${config.primaryGoal.toLowerCase()}. ${config.cta ? `You can ${config.cta.toLowerCase()}.` : ""}`;
-      }
-
-      if (text.includes("service") || text.includes("offer") || text.includes("do")) {
-        return config.businessDescription
-          ? `${config.businessName} provides: ${config.businessDescription}`
-          : `This business owner has not added service details yet.`;
-      }
-
-      if (text.includes("quote") || text.includes("price") || text.includes("estimate")) {
-        return `I’d be happy to help with that. ${
-          config.primaryGoal === "Capture leads"
-            ? `Please share your ${config.leadFields.join(", ") || "contact information"} and someone will follow up.`
-            : config.contact
-            ? `Please contact ${config.businessName} at ${config.contact}.`
-            : `Please contact the business directly for pricing.`
-        }`;
-      }
-
-      return `${config.tone.split(" ")[0]} reply: Thanks for your message. I’m here to help with ${config.primaryGoal.toLowerCase()}. ${
-        config.cta ? `Next step: ${config.cta}.` : ""
-      }`;
+      savedChatbot = data.chatbot;
+      jsonOutput.textContent = JSON.stringify(savedChatbot, null, 2);
+      embedCodeOutput.textContent = data.embedCode;
+      systemPromptOutput.textContent = savedChatbot.systemPrompt;
+    } catch (err) {
+      jsonOutput.textContent = `Error: ${err.message}`;
     }
+  });
 
-    form.addEventListener("submit", (e) => {
+  sendPreviewChat.addEventListener("click", sendPreviewMessage);
+  chatInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
       e.preventDefault();
+      sendPreviewMessage();
+    }
+  });
 
-      Object.assign(state, getFormData());
+  async function sendPreviewMessage() {
+    const text = chatInput.value.trim();
+    if (!text || !savedChatbot) return;
 
-      const configObj = buildConfig(state);
-      updatePreview(state);
+    addPreviewMessage("user", text);
+    previewMessages.push({ role: "user", content: text });
+    chatInput.value = "";
 
-      jsonOutput.textContent = JSON.stringify(configObj, null, 2);
-      systemPromptOutput.textContent = configObj.systemPrompt;
-      embedCodeOutput.textContent = buildEmbedCode(configObj);
+    try {
+      const res = await fetch(`${apiBase}/api/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chatbotId: savedChatbot.id,
+          messages: previewMessages
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Chat failed.");
 
-      // reset preview chat back to starter
-      chatBody.innerHTML = "";
-      addMessage("assistant", `Hi! Welcome to ${state.businessName || "our business"}. How can I help today?`);
-    });
-
-    fillDemoBtn.addEventListener("click", () => {
-      document.getElementById("businessName").value = "Bloom & Birch Salon";
-      document.getElementById("industry").value = "Salon";
-      document.getElementById("tone").value = "Warm and conversational";
-      document.getElementById("primaryGoal").value = "Book appointments";
-      document.getElementById("businessDescription").value =
-        "We are a modern salon offering haircuts, color, styling, and bridal services for busy professionals and event clients.";
-      document.getElementById("faqs").value =
-`What services do you offer?
-What are your hours?
-Do I need an appointment?
-Do you take walk-ins?
-Where are you located?`;
-      document.getElementById("hours").value = "Tue-Sat 9am-7pm";
-      document.getElementById("contact").value = "(555) 222-1010 | hello@bloomandbirch.com";
-      document.getElementById("cta").value = "Book your appointment now";
-      document.getElementById("brandColor").value = "#d946ef";
-      document.getElementById("leadFields").value = "Name, Email, Phone, Requested Service";
-    });
-
-    sendChat.addEventListener("click", () => {
-      const message = chatInput.value.trim();
-      if (!message) return;
-
-      const config = getFormData();
-      addMessage("user", message);
-
-      const response = getMockResponse(message, config);
-      setTimeout(() => addMessage("assistant", response), 250);
-
-      chatInput.value = "";
-      chatInput.focus();
-    });
-
-    chatInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        sendChat.click();
-      }
-    });
-  </script>
+      addPreviewMessage("assistant", data.reply);
+      previewMessages.push({ role: "assistant", content: data.reply });
+    } catch (err) {
+      addPreviewMessage("assistant", `Sorry — ${err.message}`);
+    }
+  }
+</script>
 </body>
 </html>
